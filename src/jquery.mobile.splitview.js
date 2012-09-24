@@ -86,14 +86,27 @@
         return $.mobile.path.makeUrlAbsolute( url, base);
       }
 
-      function ResetActivePageHeight(){
-        var aPage = $( "." + $.mobile.activePageClass ),
-          aPagePadT = parseFloat( aPage.css( "padding-top" ) ),
-          aPagePadB = parseFloat( aPage.css( "padding-bottom" ) ),
-          aPageBorderT = parseFloat( aPage.css( "border-top-width" ) ),
-          aPageBorderB = parseFloat( aPage.css( "border-bottom-width" ) );
+      function ResetActivePageHeight(container){
+        var aPage;
+            // aPagePadT = parseFloat( aPage.css( "padding-top" ) ),
+            // aPagePadB = parseFloat( aPage.css( "padding-bottom" ) ),
+            // aPageBorderT = parseFloat( aPage.css( "border-top-width" ) ),
+            // aPageBorderB = parseFloat( aPage.css( "border-bottom-width" ) );
 
-        aPage.css( "min-height", getScreenHeight() - aPagePadT - aPagePadB - aPageBorderT - aPageBorderB );
+        if(container !== null && typeof container !== 'undefined') {
+          aPage = container.find("." + $.mobile.activePageClass);
+        } else {
+          aPage = $( "." + $.mobile.activePageClass );
+        }
+
+        aPage.each(function(i, page){
+          page = $(page)
+          var pagePadT = parseFloat( page.css( "padding-top" )),
+              pagePadB = parseFloat( page.css( "padding-bottom" )),
+              pageBorderT = parseFloat( page.css( "border-top-width" )),
+              pageBorderB = parseFloat( page.css( "border-bottom-width" ));
+          page.css( "min-height", getScreenHeight() - pagePadT - pagePadB - pageBorderT - pageBorderB );
+        })
       }
 
       //override _registerInternalEvents to bind to new methods below
@@ -356,8 +369,8 @@
                 pageContainer: $mainPanel
               };
 
-          if ( 0 === urlHistory.stack.length ) {
-            urlHistory.initialDst = to;
+          if ( 0 === $.mobile.urlHistory.stack.length ) {
+            $.mobile.urlHistory.initialDst = to;
           }
 
           // We should probably fire the "navigate" event from those places that make calls to _handleHashChange,
@@ -373,7 +386,7 @@
           }
 
           // special case for dialogs
-          if( $.mobile.urlHistory.stack.length > 1 && to.indexOf( dialogHashKey ) > -1 && urlHistory.initialDst !== to ) {
+          if( $.mobile.urlHistory.stack.length > 1 && to.indexOf( dialogHashKey ) > -1 && $.mobile.urlHistory.initialDst !== to ) {
 
             // If current active page is not a dialog skip the dialog and continue
             // in the same direction
@@ -439,8 +452,11 @@
         });
 
         //set page min-heights to be device specific
-        $( document ).bind( "pageshow.resetPageHeight", ResetActivePageHeight );
-        $( window ).bind( "throttledresize.resetPageHeight", ResetActivePageHeight );
+        $( document ).bind( "pageshow.resetPageHeight", function(e){
+          var container = $(e.target).parents('div:jqmData(role="panel")');
+          ResetActivePageHeight(container); 
+        });
+        $( window ).bind( "throttledresize.resetPageHeight", ResetActivePageHeight() );
 
       }; //end _registerInternalEvents
 
