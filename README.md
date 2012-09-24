@@ -85,6 +85,14 @@ NOTE: although with this beta2 release I've managed to minimize the amount of ch
 
 pages can also be loaded dynamically provided you specify the panel it needs to load into (as explained below). you need to preload two pages - one for each panel, to avoid an empty page on either of your panels.
 
+Splitview Links
+-------------------------------
+splitview links work just like the links in jQuery Mobile. the only difference is, you can define the panel you want the page that link points to load into using the 'data-panel' attribute. for example:
+
+	<a href="some_other_page" data-panel="main">
+
+this method also loads ajax pages.
+
 Panel settings
 -------------------------------
 there are two settings for panel divs:
@@ -93,25 +101,16 @@ there are two settings for panel divs:
 this attribute tells splitview to track history for the panel or not (true and false), or to set a 'crumb' (crumbs) button at the top left portion of the header for each page. 
 
 2. data-context - takes a jQuery selector value, or a hash of the following: url, panel, refresh.
-data-context tells splitview to load another page whose link can be found in the active page by the jQuery selector value, or a page which is pointed to by the hash. example:
+    data-context tells splitview to load another page whose link can be found in the active page by the jQuery selector value, or a page which is pointed to by the hash. example:
 
-	<div data-role="panel" data-id="menu" data-hash="crumbs" data-context="a#default">
+	    <div data-role="panel" data-id="menu" data-hash="crumbs" data-context="a#default">
 
-OR  
+    OR  
   
-	<div data-role="panel" data-id="menu" data-hash="crumbs" data-context='{"url":"#bar", "panel":"main", "refresh":false}'>
+	    <div data-role="panel" data-id="menu" data-hash="crumbs" data-context='{"url":"#bar", "panel":"main", "refresh":false}'>
 
-NOTE: this attribute, if used on a page, overrides panel data-context attributes. example:
+    NOTE: this attribute, if used on a page, overrides panel data-context attributes. example:
 
-	<div data-role="page" data-context="a#default">
-
-Splitview Links
--------------------------------
-splitview links work just like the links in jQuery Mobile. the only difference is, you can define the panel you want the page that link points to load into using the 'data-panel' attribute. for example:
-
-	<a href="some_other_page" data-panel="main">
-
-this method also loads ajax pages. 
-
+	    <div data-role="page" data-context="a#default">
 
 that's about it! splitview does everything else for you... enjoy it, and let me know if you have any issues with it! thanks!
