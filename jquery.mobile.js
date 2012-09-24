@@ -4346,10 +4346,7 @@ $.mobile.getMaxScrollForTransition = $.mobile.getMaxScrollForTransition || defau
 		$( window ).bind( "throttledresize", resetActivePageHeight );
 
 	}; //_registerInternalEvents
-	
-  $( window.document ).bind('mobileinit', function() {
-  	$.mobile.navreadyDeferred.done($.mobile._registerInternalEvents())
-  });
+	$.mobile.navreadyDeferred.done(function(){ $.mobile._registerInternalEvents() });
 
 })( jQuery );
 
