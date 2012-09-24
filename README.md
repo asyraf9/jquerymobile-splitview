@@ -5,9 +5,12 @@ demo at: asyraf9.github.com/jquery-mobile/
 
 This is a plugin for jQuery Mobile that detects your device's browser width and renders pages accordingly - e.g. splitview for desktop and tablets, and standard jqm for mobile phones. 
 
+NOTE: as of jQueryMobile 1.2 RC, you will have to use the modified version of JQuerymobile provided in the /jquery-mobile folder of my repo. jquerymobile v1.2.1 will incorporate some changes that will allow this plugin to work out of the box. sorry for the inconvenience
+NOTE (2): I've only recently began supporting JQM > 1.0 so do expect a lot of bugs and would appreciate if you could submit some pull requests to help me fix it. 
+
 Features
 -------------------------------
-1. auto-detection of how to render for the browser you are using.
+1. auto-detection: automatically decides how to render for the browser you are using.
 2. independent panel scrolling (still a lot more to work on here)
 3. orientation and resize aware - renders the side panel in a popover fashion when in portrait mode
 4. context awareness - can be programmed so that opening a page on the side panel also opens a page on the main panel
