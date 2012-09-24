@@ -54,12 +54,12 @@
           getScreenHeight = $.mobile.getScreenHeight;
 
       //remove active classes after page transition or error
-      // function removeActiveLinkClass( forceRemoval ) {
-      //   if ( !!$activeClickedLink && ( !$activeClickedLink.closest( "." + $.mobile.activePageClass ).length || forceRemoval ) ) {
-      //     $activeClickedLink.removeClass( $.mobile.activeBtnClass );
-      //   }
-      //   $activeClickedLink = null;
-      // }
+      function removeActiveLinkClass( forceRemoval ) {
+        if ( !!$activeClickedLink && ( !$activeClickedLink.closest( "." + $.mobile.activePageClass ).length || forceRemoval ) ) {
+          $activeClickedLink.removeClass( $.mobile.activeBtnClass );
+        }
+        $activeClickedLink = null;
+      }
 
       function findClosestLink(ele)
       {
@@ -356,13 +356,24 @@
                 pageContainer: $mainPanel
               };
 
+          if ( 0 === urlHistory.stack.length ) {
+            urlHistory.initialDst = to;
+          }
+
+          // We should probably fire the "navigate" event from those places that make calls to _handleHashChange,
+          // and have _handleHashChange hook into the "navigate" event instead of triggering it here
+          $.mobile.pageContainer.trigger( navEvent );
+          if ( navEvent.isDefaultPrevented() ) {
+            return;
+          }
+
           if( !$.mobile.hashListeningEnabled || $.mobile.urlHistory.ignoreNextHashChange ){
             $.mobile.urlHistory.ignoreNextHashChange = false;
             return;
           }
 
           // special case for dialogs
-          if( $.mobile.urlHistory.stack.length > 1 && to.indexOf( dialogHashKey ) > -1 ) {
+          if( $.mobile.urlHistory.stack.length > 1 && to.indexOf( dialogHashKey ) > -1 && urlHistory.initialDst !== to ) {
 
             // If current active page is not a dialog skip the dialog and continue
             // in the same direction
@@ -432,7 +443,6 @@
         $( window ).bind( "throttledresize.resetPageHeight", ResetActivePageHeight );
 
       }; //end _registerInternalEvents
-      $.mobile.navreadyDeferred.done($.mobile._registerInternalEvents());
 
       //DONE: bind orientationchange and resize - the popover
       _orientationHandler = function(event){
