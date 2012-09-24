@@ -54,12 +54,12 @@
           getScreenHeight = $.mobile.getScreenHeight;
 
       //remove active classes after page transition or error
-      // function removeActiveLinkClass( forceRemoval ) {
-      //   if ( !!$activeClickedLink && ( !$activeClickedLink.closest( "." + $.mobile.activePageClass ).length || forceRemoval ) ) {
-      //     $activeClickedLink.removeClass( $.mobile.activeBtnClass );
-      //   }
-      //   $activeClickedLink = null;
-      // }
+      function removeActiveLinkClass( forceRemoval ) {
+        if ( !!$activeClickedLink && ( !$activeClickedLink.closest( "." + $.mobile.activePageClass ).length || forceRemoval ) ) {
+          $activeClickedLink.removeClass( $.mobile.activeBtnClass );
+        }
+        $activeClickedLink = null;
+      }
 
       function findClosestLink(ele)
       {
