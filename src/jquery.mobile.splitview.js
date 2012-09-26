@@ -4,6 +4,11 @@
 // TODO: reinstate replaceBackBtn - to include the case where people actually really want the back btn
 (function($,window,undefined){
   $( window.document ).bind('mobileinit', function(){
+    $.mobile = $.extend( {}, {
+      menuWidth: '25%',
+      menuMinWidth: '250px'
+    }, $.mobile );
+
     //some class for css to detect touchscreens
     if($.support.touch){
       $('html').addClass('touch');
@@ -490,7 +495,7 @@
         function popover(){
           $menu.addClass('panel-popover')
                .removeClass('ui-panel-left')
-               .css({'width':'25%', 'min-width':'250px', 'display':'', 'overflow-x':'visible'});     
+               .css({'width':$.mobile.menuWidth, 'min-width':$.mobile.menuMinWidth, 'display':'', 'overflow-x':'visible'});     
           if(!$menu.children('.popover_triangle').length){ 
             $menu.prepend('<div class="popover_triangle"></div>'); 
           }
@@ -511,7 +516,7 @@
         function splitView(){
           $menu.removeClass('panel-popover')
                .addClass('ui-panel-left')
-               .css({'width':'25%', 'min-width':'250px', 'display':''});
+               .css({'width':$.mobile.menuWidth, 'min-width':$.mobile.menuMinWidth, 'display':''});
           $menu.children('.popover_triangle').remove();
           $main.addClass('ui-panel-right')
                .width(function(){
