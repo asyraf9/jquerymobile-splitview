@@ -81,7 +81,6 @@ div[data-id="main"] {
 popover css for portrait orientation, modified from 
 http://www.cagintranet.com/archive/create-an-ipad-like-dropdown-popover/
 ************************************************************************************************************/
-.panel-popover .popover_triangle {left:7px;}
 .panel-popover {
   color: black;
   display:none;
@@ -90,7 +89,6 @@ http://www.cagintranet.com/archive/create-an-ipad-like-dropdown-popover/
   cursor: auto;
   position: absolute;
   top:55px;
-  left:10px;
   background-color: white;
   z-index:5000000;
   border: 3px solid black;
