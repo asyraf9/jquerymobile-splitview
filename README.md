@@ -19,7 +19,7 @@ Features
 
 Anatomy of a Splitview page
 -------------------------------
-the anatomy of a splitview page can be seen at the demo page above. Basically, you need to position your pages in the following order:
+the anatomy of a splitview page can be seen at the demo page above. It is very important that jquery.mobile.splitview.js is loaded before the modified version of jquery mobile, as you can see below. Basically, you need to position your pages in the following order:
 
 	<!DOCTYPE html> 
 		<html> 
