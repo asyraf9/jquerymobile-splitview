@@ -4,6 +4,12 @@
 // TODO: reinstate replaceBackBtn - to include the case where people actually really want the back btn
 (function($,window,undefined){
   $( window.document ).bind('mobileinit', function(){
+    $.mobile = $.extend( {}, {
+      menuWidth: '25%',
+      menuMinWidth: '250px',
+      menuBtnSide: 'left',
+    }, $.mobile );
+
     //some class for css to detect touchscreens
     if($.support.touch){
       $('html').addClass('touch');
@@ -477,13 +483,13 @@
         
         function popoverBtn(header) {
           if(!header.children('.popover-btn').length){
-            if(header.children('a.ui-btn-left').length){
-              header.children('a.ui-btn-left').replaceWith('<a class="popover-btn">Menu</a>');
-              header.children('a.popover-btn').addClass('ui-btn-left').buttonMarkup();
+            if(header.children('a.ui-btn-'+$.mobile.menuBtnSide).length){
+              header.children('a.ui-btn-'+$.mobile.menuBtnSide).replaceWith('<a class="popover-btn">Menu</a>');
+              header.children('a.popover-btn').addClass('ui-btn-'+$.mobile.menuBtnSide).buttonMarkup();
             }
             else{
               header.prepend('<a class="popover-btn">Menu</a>');
-              header.children('a.popover-btn').addClass('ui-btn-left').buttonMarkup()          
+              header.children('a.popover-btn').addClass('ui-btn-'+$.mobile.menuBtnSide).buttonMarkup()          
             }
           }
         }
@@ -498,11 +504,12 @@
         function popover(){
           $menu.addClass('panel-popover')
                .removeClass('ui-panel-left')
-               .css({'width':'25%', 'min-width':'250px', 'display':'', 'overflow-x':'visible'});     
+               .css({'width':$.mobile.menuWidth, 'min-width':$.mobile.menuMinWidth, 'display':'', 'overflow-x':'visible'})
+               .css($.mobile.menuBtnSide, '10px');
           if(!$menu.children('.popover_triangle').length){ 
-            $menu.prepend('<div class="popover_triangle"></div>'); 
+            $menu.prepend('<div class="popover_triangle" style="'+$.mobile.menuBtnSide+':7px"></div>');
           }
-          $menu.children('.' + $.activePageClass).css('min-height', '100%');
+          $menu.children('div:jqmData(role="page")').css('min-height', '100%');
           $main.removeClass('ui-panel-right')
                .css('width', '');
           popoverBtn($mainHeader);
@@ -512,6 +519,7 @@
             var $thisHeader=$(this).children('div:jqmData(role="header")');
             popoverBtn($thisHeader);
           });
+          $( document ).unbind('pageshow.resetPageHeight');
           // TODO: unbind resetActivePageHeight for popover pages
 
         };
@@ -519,7 +527,7 @@
         function splitView(){
           $menu.removeClass('panel-popover')
                .addClass('ui-panel-left')
-               .css({'width':'25%', 'min-width':'250px', 'display':''});
+               .css({'width':$.mobile.menuWidth, 'min-width':$.mobile.menuMinWidth, 'display':''});
           $menu.children('.popover_triangle').remove();
           $main.addClass('ui-panel-right')
                .width(function(){
