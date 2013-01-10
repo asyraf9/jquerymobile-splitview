@@ -123,9 +123,17 @@
 
           var type = $this.attr("method"),
               target = $this.attr("target"),
-              url = $this.attr( "action" ),
-              $currPanel=$this.parents('div:jqmData(role="panel")'),
-              $currPanelActivePage=$currPanel.children('div.'+$.mobile.activePageClass);
+              url = $this.attr( "action" );
+
+          // If the form has a data-panel attribute, load the page in that panel instead.
+          var $targetPanel = null;
+          var $targetPanelId = $this.jqmData("panel");
+          if ($targetPanelId === undefined) {
+              $targetPanel = $this.parents('div:jqmData(role="panel")');
+          } else {
+              $targetPanel = $('div:jqmData(id="' + $targetPanelId + '")');
+          }
+          var $targetPanelActivePage=$targetPanel.children('div.'+$.mobile.activePageClass);
 
           // If no action is specified, browsers default to using the
           // URL of the document containing the form. Since we dynamically
@@ -152,8 +160,8 @@
           }
 
           //temporarily put this here- eventually shud just set it immediately instead of an interim var.
-          $.mobile.activePage=$currPanelActivePage;
-          // $.mobile.pageContainer=$currPanel;
+          $.mobile.activePage=$targetPanelActivePage;
+          // $.mobile.pageContainer=$targetPanel;
           $.mobile.changePage(
               url, 
               {
@@ -162,7 +170,7 @@
                 transition: $this.jqmData("transition"),
                 reverse:  $this.jqmData("direction") === "reverse",
                 reloadPage: true,
-                pageContainer:$currPanel
+                pageContainer:$targetPanel
               }
           );
           event.preventDefault();
