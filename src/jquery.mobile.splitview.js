@@ -8,7 +8,8 @@
     if($.support.touch){
       $('html').addClass('touch');
     }
-    var $query = $.mobile.media('screen and (min-width: 480px)') && ($.mobile.media('(-webkit-max-device-pixel-ratio: 1.2)') || $.mobile.media('(max--moz-device-pixel-ratio: 1.2)'));
+    var isRetinaDevice = $.mobile.media('(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)');
+    var $query = $.mobile.media('screen and (min-width: 480px)') && ($.mobile.media('(-webkit-max-device-pixel-ratio: 1.2)') || $.mobile.media('(max--moz-device-pixel-ratio: 1.2)') || isRetinaDevice);
     $.support.splitview = ($query || ($.mobile.browser.ie && $(this).width() >= 480)) && $.mobile.ajaxEnabled;
     if ($.support.splitview) {
       $('html').addClass('splitview');
@@ -682,6 +683,9 @@
           $this.replaceWith($this.html());
         })
       });
+      if (window.console) {
+          console.error("This device is not support by jquerymobile-splitview");
+      }
     }
   });
 })(jQuery,window);
